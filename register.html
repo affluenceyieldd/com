@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Affluence Yield</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="Affluence Yield Logo">
+                    
+                </div>
+                
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="cta-button"><a href="login.html">Login</a></li>
+                <li class="cta-button"><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="auth-section">
+            <div class="container">
+                <h2>Create Your Account</h2>
+                <form class="auth-form" action="#" method="POST" id="registerForm" onsubmit="return handleRegistration(event)">
+                    <div class="form-group">
+                        <label for="fullname"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <div class="form-group terms">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                    </div>
+                    <button type="submit" class="submit-btn">Register</button>
+                </form>
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Registration successful! Redirecting to login page...</p>
+                </div>
+                <p class="auth-redirect">Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Affluence Yield</h3>
+                <p>Your trusted partner in cryptocurrency investment and mining</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/aboutus.html">About Us</a></li>
+                    <li><a href="/services.html">Services</a></li>
+                    <li><a href="/contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Affluence Yield. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        async function handleRegistration(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const fullname = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            try {
+                // Sign up the user with Supabase
+                // Change this line in the handleRegistration function
+                const { data, error } = await window.supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: fullname,
+                            phone: phone
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                // Get the form and success message elements
+                const form = document.getElementById('registerForm');
+                const successMessage = document.getElementById('successMessage');
+                
+                // Hide the form and show success message
+                form.style.display = 'none';
+                successMessage.style.display = 'flex';
+                
+                // Redirect to login page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+                
+            } catch (error) {
+                alert('Error during registration: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

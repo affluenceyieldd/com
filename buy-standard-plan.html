@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Standard Plan - Affluence Yield</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="Affluence Yield Logo">
+                    
+                </div>
+                
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="index.html" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="buy-plan-main">
+        <div class="container">
+            <div class="plan-details">
+                <h2>Your Investment Details</h2>
+                <div class="plan-info">
+                    <h3>Standard Plan</h3>
+                    <ul>
+                        <li><strong>Plan Price:</strong> $5,000</li>
+                        <li><strong>Duration:</strong> 1 Month</li>
+                        <li><strong>Profit:</strong> 20% Daily</li>
+                        <li><strong>Minimum Deposit:</strong> $5,000</li>
+                        <li><strong>Maximum Deposit:</strong> $15,000</li>
+                        <li><strong>Bonus:</strong> $500</li>
+                    </ul>
+                </div>
+                
+                <form id="buy-plan-form" class="investment-form">
+                    <div class="form-group">
+                        <label for="investment-amount">Investment Amount (USD)</label>
+                        <input type="number" id="investment-amount" name="investment-amount" min="5000" max="15000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-crypto">Select Payment Method</label>
+                        <select id="payment-crypto" name="payment-crypto" required>
+                            <option value="btc">Bitcoin (BTC)</option>
+                            <option value="eth">Ethereum (ETH)</option>
+                            <option value="usdt">Tether (USDT)</option>
+                            <option value="bnb">Binance Coin (BNB)</option>
+                            <option value="sol">Solana (SOL)</option>
+                            <option value="ada">Cardano (ADA)</option>
+                            <option value="xrp">Ripple (XRP)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="submit-btn" onclick="showPaymentAddress()">Pay To</button>
+                </form>
+
+                <div id="payment-address" class="payment-details" style="display: none;">
+                    <h3>Payment Address</h3>
+                    <div class="wallet-address">
+                        <code id="plan-wallet-address"></code>
+                        <button type="button" class="copy-btn" onclick="copyPlanWalletAddress()"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <p class="payment-note">Please send your payment to the above address. Your plan will be activated once the payment is confirmed, also send transfer evidence to our customer care for immediate update.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <a href="https://wa.me/13233930081" target="_blank" class="whatsapp-chat-btn">
+        <i class="fab fa-whatsapp"></i>
+        Customer Care
+    </a>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

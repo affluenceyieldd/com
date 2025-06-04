@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Affluence Yield</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <div class="logo">
+            <img src="images/logo.jpg" alt="Affluence Yield Logo">
+            
+        </div>
+          
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li class="cta-button"><a href="login.html">Login</a></li>
+          <li class="cta-button"><a href="register.html">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="auth-section">
+        <div class="container">
+          <h2>Login to Your Account</h2>
+          <form class="auth-form" id="loginForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="email"><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password"><i class="fas fa-lock"></i> Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="form-group remember-forgot">
+              <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember" />
+                <label for="remember">Remember me</label>
+              </div>
+              <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+          </form>
+          <p class="auth-redirect">
+            Don't have an account? <a href="register.html">Register here</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Affluence Yield</h3>
+          <p>Your trusted partner in cryptocurrency investment and mining</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/aboutus.html">About Us</a></li>
+            <li><a href="/services.html">Services</a></li>
+            <li><a href="/contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Affluence Yield. All rights reserved.</p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

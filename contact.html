@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Affluence Yield</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="Affluence Yield Logo">
+                    
+                </div>
+               
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="cta-button"><a href="login.html">Login</a></li>
+                <li class="cta-button"><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>Have questions or need assistance? Fill out the form below, and we'll get back to you as soon as possible. You can also reach us directly via WhatsApp.</p>
+
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select a Country</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Affluence Yield</h3>
+                <p>Your trusted partner in cryptocurrency investment and mining</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Affluence Yield. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const countrySelect = document.getElementById('country');
+            const countries = [
+                "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "Japan", "India", "Brazil", "Mexico",
+                "South Africa", "Nigeria", "Egypt", "Kenya", "Ghana", "Algeria", "Morocco", "Ethiopia", "Tanzania", "Uganda",
+                "Argentina", "Colombia", "Peru", "Chile", "Venezuela", "Ecuador", "Bolivia", "Paraguay", "Uruguay",
+                "China", "Russia", "South Korea", "Indonesia", "Pakistan", "Bangladesh", "Philippines", "Vietnam", "Thailand", "Malaysia",
+                "Saudi Arabia", "United Arab Emirates", "Turkey", "Iran", "Iraq", "Israel", "Afghanistan", "Yemen", "Syria", "Jordan",
+                "Italy", "Spain", "Poland", "Ukraine", "Romania", "Netherlands", "Belgium", "Greece", "Portugal", "Sweden",
+                "Norway", "Denmark", "Finland", "Ireland", "Switzerland", "Austria", "Czech Republic", "Hungary", "Bulgaria", "Serbia",
+                "Croatia", "Bosnia and Herzegovina", "Albania", "North Macedonia", "Slovenia", "Slovakia", "Lithuania", "Latvia", "Estonia",
+                "Iceland", "New Zealand", "Singapore", "Hong Kong", "Taiwan", "Sri Lanka", "Nepal", "Myanmar", "Cambodia", "Laos",
+                "Mongolia", "Kazakhstan", "Uzbekistan", "Turkmenistan", "Kyrgyzstan", "Tajikistan", "Azerbaijan", "Georgia", "Armenia",
+                "Cuba", "Dominican Republic", "Haiti", "Jamaica", "Trinidad and Tobago", "Bahamas", "Barbados", "Belize", "Costa Rica",
+                "El Salvador", "Guatemala", "Honduras", "Nicaragua", "Panama", "Puerto Rico",
+                "Fiji", "Papua New Guinea", "Solomon Islands", "Vanuatu", "Samoa", "Tonga", "Kiribati", "Micronesia", "Palau", "Marshall Islands",
+                "Nauru", "Tuvalu", "Maldives", "Mauritius", "Seychelles", "Comoros", "Madagascar", "Mozambique", "Angola", "Zambia",
+                "Zimbabwe", "Botswana", "Namibia", "Lesotho", "Eswatini", "Djibouti", "Eritrea", "Somalia", "South Sudan", "Sudan",
+                "Central African Republic", "Chad", "Cameroon", "Congo (Brazzaville)", "Congo (Kinshasa)", "Gabon", "Equatorial Guinea",
+                "Sao Tome and Principe", "Burundi", "Rwanda", "Benin", "Burkina Faso", "Cape Verde", "Gambia", "Guinea", "Guinea-Bissau",
+                "Liberia", "Mali", "Mauritania", "Niger", "Senegal", "Sierra Leone", "Togo"
+            ];
+
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countrySelect.appendChild(option);
+            });
+
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const country = document.getElementById('country').value;
+                const message = document.getElementById('message').value;
+
+                const whatsappNumber = '13233930081'; // Your WhatsApp number
+                const whatsappMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nCountry: ${country}\nMessage: ${message}`;
+
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+                window.open(whatsappURL, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

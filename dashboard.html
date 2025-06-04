@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Affluence Yield</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="Affluence Yield Logo">
+                    
+                </div>
+                
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="index.html" class="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Welcome, <span id="user-name">User</span></h2>
+                <div class="balance-card">
+                    <h3>Total Balance</h3>
+                    <p class="balance-amount">$<span id="total-balance">0.00</span></p>
+                    <div class="balance-actions">
+                        <button class="action-btn withdraw-btn" onclick="showModal('withdraw-modal')"><i class="fas fa-minus"></i> Withdraw</button>
+                        <a href="buy-plan.html" class="action-btn buy-plan-btn"><i class="fas fa-chart-line"></i> Buy Flexi Plan</a>
+                        <a href="buy-standard-plan.html" class="action-btn buy-plan-btn"><i class="fas fa-chart-line"></i> Buy Standard Plan</a>
+                        <a href="buy-premium-plan.html" class="action-btn buy-plan-btn"><i class="fas fa-chart-line"></i> Buy Premium Plan</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card profile-section">
+                    <h3><i class="fas fa-user"></i> Profile Information</h3>
+                    <form id="profile-form" class="dashboard-form">
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" name="full-name" value="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="john@example.com" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="+1234567890">
+                        </div>
+                        <button type="submit" class="submit-btn">Update Profile</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card security-section">
+                    <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+                    <form id="security-form" class="dashboard-form">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" name="current-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password">
+                        </div>
+                        <button type="submit" class="submit-btn">Change Password</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card investment-overview-section">
+                    <h3><i class="fas fa-chart-pie"></i> Investment Plans Overview</h3>
+                    <div class="plans-overview">
+                        <div class="plan-card flexi">
+                            <h4>Flexi Plan</h4>
+                            <ul>
+                                <li><strong>Investment Range:</strong> $300 - $5,000</li>
+                                <li><strong>Daily Profit:</strong> 10%</li>
+                                <li><strong>Monthly Return:</strong> 300%</li>
+                                <li><strong>Duration:</strong> 1 Month</li>
+                                <li><strong>Bonus:</strong> $0</li>
+                            </ul>
+                            <p class="plan-description">Perfect for beginners! Start with a lower investment and enjoy daily profits.</p>
+                        </div>
+                        <div class="plan-card standard">
+                            <h4>Standard Plan</h4>
+                            <ul>
+                                <li><strong>Investment Range:</strong> $5,000 - $15,000</li>
+                                <li><strong>Daily Profit:</strong> 20%</li>
+                                <li><strong>Monthly Return:</strong> 600%</li>
+                                <li><strong>Duration:</strong> 1 Month</li>
+                                <li><strong>Bonus:</strong> $5,000</li>
+                            </ul>
+                            <p class="plan-description">Our most popular plan! Higher returns with an attractive bonus package.</p>
+                        </div>
+                        <div class="plan-card premium">
+                            <h4>Premium Plan</h4>
+                            <ul>
+                                <li><strong>Investment Range:</strong> $15,000 - $100,000</li>
+                                <li><strong>Daily Profit:</strong> 20%</li>
+                                <li><strong>Monthly Return:</strong> 600%</li>
+                                <li><strong>Duration:</strong> 1 Month</li>
+                                <li><strong>Bonus:</strong> $10,000</li>
+                            </ul>
+                            <p class="plan-description">For serious investors! Maximum returns with the highest bonus offering.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card performance-chart-section">
+                    <h3><i class="fas fa-chart-line"></i> Investment Performance</h3>
+                    <div class="chart-container">
+                        <canvas id="investmentChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color flexi"></span>
+                            <span>Flexi Plan (300% Monthly)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color standard"></span>
+                            <span>Standard Plan (600% Monthly)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color premium"></span>
+                            <span>Premium Plan (600% Monthly)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card transactions-section">
+                    <h3><i class="fas fa-history"></i> Recent Transactions</h3>
+                    <div class="transaction-list">
+                        <!-- Transactions will be dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('deposit-modal')">&times;</span>
+            <h2>Deposit Crypto</h2>
+            <form id="deposit-form" class="dashboard-form">
+                <div class="form-group">
+                    <label for="deposit-amount">Amount (USD)</label>
+                    <input type="number" id="deposit-amount" name="deposit-amount" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="crypto-type">Select Cryptocurrency</label>
+                    <select id="crypto-type" name="crypto-type" required>
+                        <option value="btc">Bitcoin (BTC)</option>
+                        <option value="eth">Ethereum (ETH)</option>
+                        <option value="usdt">Tether (USDT)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Wallet Address</label>
+                    <div class="wallet-address">
+                        <code id="wallet-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</code>
+                        <button type="button" class="copy-btn" onclick="copyWalletAddress()"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Confirm Deposit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('withdraw-modal')">&times;</span>
+            <h2>Withdraw Funds</h2>
+            <form id="withdraw-form" class="dashboard-form">
+                <div class="form-group">
+                    <label for="withdraw-amount">Amount (USD)</label>
+                    <input type="number" id="withdraw-amount" name="withdraw-amount" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="withdraw-crypto">Select Cryptocurrency</label>
+                    <select id="withdraw-crypto" name="withdraw-crypto" required>
+                        <option value="btc">Bitcoin (BTC)</option>
+                        <option value="eth">Ethereum (ETH)</option>
+                        <option value="usdt">Tether (USDT)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="withdraw-address">Your Wallet Address</label>
+                    <input type="text" id="withdraw-address" name="withdraw-address" required>
+                </div>
+                <button type="submit" class="submit-btn">Confirm Withdrawal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Buy Plan Modal -->
+    <div id="buy-plan-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideModal('buy-plan-modal')">&times;</span>
+            <h2>Your Investment Details</h2>
+            <div class="plan-details">
+                <div class="plan-info">
+                    <h3>Flexible Plan</h3>
+                    <ul>
+                        <li><strong>Plan Price:</strong> $300</li>
+                        <li><strong>Duration:</strong> 1 Month</li>
+                        <li><strong>Profit:</strong> 10% Daily</li>
+                        <li><strong>Minimum Deposit:</strong> $300</li>
+                        <li><strong>Maximum Deposit:</strong> $5,000</li>
+                        <li><strong>Bonus:</strong> $0</li>
+                    </ul>
+                </div>
+                <form id="buy-plan-form" class="dashboard-form">
+                    <div class="form-group">
+                        <label for="investment-amount">Investment Amount (USD)</label>
+                        <input type="number" id="investment-amount" name="investment-amount" min="300" max="5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-crypto">Select Payment Method</label>
+                        <select id="payment-crypto" name="payment-crypto" required>
+                            <option value="btc">Bitcoin (BTC)</option>
+                            <option value="eth">Ethereum (ETH)</option>
+                            <option value="usdt">Tether (USDT)</option>
+                            <option value="bnb">Binance Coin (BNB)</option>
+                            <option value="sol">Solana (SOL)</option>
+                            <option value="ada">Cardano (ADA)</option>
+                            <option value="xrp">Ripple (XRP)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="submit-btn" onclick="showPaymentAddress()">Pay To</button>
+                </form>
+                <div id="payment-address" class="payment-details" style="display: none;">
+                    <h3>Payment Address</h3>
+                    <div class="wallet-address">
+                        <code id="plan-wallet-address"></code>
+                        <button type="button" class="copy-btn" onclick="copyPlanWalletAddress()"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <p class="payment-note">Please send your payment to the above address, and for faster activation send transfer reciept to the customer care. Your plan will be activated once the payment is confirmed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "block";
+            }
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // When user clicks outside the modal, close it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
+    </div>
+    <!-- WhatsApp Chat Button -->
+    <a href="https://wa.me/13233930081" target="_blank" class="whatsapp-chat-btn">
+        <i class="fab fa-whatsapp"></i>
+        Customer Care
+    </a>
+</main>
