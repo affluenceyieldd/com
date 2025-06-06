@@ -1,0 +1,12 @@
+{
+  "name": "affluence-yield",
+  "version": "1.0.0",
+  "description": "Affluence Yield - Cryptocurrency Investment Platform",
+  "scripts": {
+    "start": "http-server -p 3000 -c-1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "http-server": "^14.1.1"
+  }
+} 
