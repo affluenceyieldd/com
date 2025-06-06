@@ -1,8 +1,11 @@
+console.log('Dashboard.js script loaded!');
+
 // Remove the mock data object
 // let userData = { ... };
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM Content Loaded - Initializing dashboard...');
     await fetchUserData(); // Add this line
     initializeFormListeners();
 });
@@ -10,9 +13,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Add this new function to fetch user data
 async function fetchUserData() {
     try {
+        console.log('Starting fetchUserData...');
+        
         // Get the authenticated user
         const { data: { user }, error: userError } = await window.supabaseClient.auth.getUser();
-        if (userError) throw userError;
+        if (userError) {
+            console.error('Error getting user:', userError);
+            throw userError;
+        }
+        console.log('Current user:', user);
+
+        // Set up real-time subscription
+        await subscribeToProfileChanges();
+        console.log('Real-time subscription set up');
 
         // Get the user's profile
         const { data: profile, error: profileError } = await window.supabaseClient
@@ -20,7 +33,13 @@ async function fetchUserData() {
             .select('*')
             .eq('id', user.id)
             .single();
-        if (profileError) throw profileError;
+        
+        if (profileError) {
+            console.error('Error fetching profile:', profileError);
+            throw profileError;
+        }
+        console.log('Profile data:', profile);
+        console.log('Profile balance:', profile?.balance);
 
         // Get user's transactions
         const { data: transactions, error: transactionError } = await window.supabaseClient
@@ -28,20 +47,39 @@ async function fetchUserData() {
             .select('*')
             .eq('user_id', user.id)
             .order('created_at', { ascending: false });
-        if (transactionError) throw transactionError;
+        if (transactionError) {
+            console.error('Error fetching transactions:', transactionError);
+            throw transactionError;
+        }
+        console.log('Transactions:', transactions);
 
         // Update the UI
-        document.getElementById('user-name').textContent = profile.full_name || user.email;
-        document.getElementById('full-name').value = profile.full_name || '';
-        document.getElementById('email').value = user.email;
-        document.getElementById('phone').value = profile.phone || '';
-        document.getElementById('total-balance').textContent = (profile.balance || 0).toFixed(2);
+        const userNameElement = document.getElementById('user-name');
+        const fullNameElement = document.getElementById('full-name');
+        const emailElement = document.getElementById('email');
+        const phoneElement = document.getElementById('phone');
+        const balanceElement = document.getElementById('total-balance');
+
+        console.log('UI Elements:', {
+            userNameElement: userNameElement?.id,
+            fullNameElement: fullNameElement?.id,
+            emailElement: emailElement?.id,
+            phoneElement: phoneElement?.id,
+            balanceElement: balanceElement?.id
+        });
+
+        if (userNameElement) userNameElement.textContent = profile.full_name || user.email;
+        if (fullNameElement) fullNameElement.value = profile.full_name || '';
+        if (emailElement) emailElement.value = user.email;
+        if (phoneElement) phoneElement.value = profile.phone || '';
+        if (balanceElement) balanceElement.textContent = (profile.balance || 0).toFixed(2);
 
         // Update transactions list
         updateTransactionList(transactions);
+        console.log('Dashboard update complete');
 
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error in fetchUserData:', error);
         showNotification('Error loading user data', 'error');
     }
 }
@@ -275,4 +313,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+});
+
+// Add real-time subscription for profile changes
+async function subscribeToProfileChanges() {
+    try {
+        const { data: { user }, error: userError } = await window.supabaseClient.auth.getUser();
+        if (userError) throw userError;
+
+        // Subscribe to changes in the user's profile
+        const subscription = window.supabaseClient
+            .channel('profile-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*', // Listen for all events (INSERT, UPDATE, DELETE)
+                    schema: 'public',
+                    table: 'profiles',
+                    filter: `id=eq.${user.id}`
+                },
+                (payload) => {
+                    console.log('Profile change received:', payload);
+                    // Update the balance display
+                    const balanceElement = document.getElementById('total-balance');
+                    if (balanceElement && payload.new) {
+                        balanceElement.textContent = (payload.new.balance || 0).toFixed(2);
+                    }
+                }
+            )
+            .subscribe();
+
+        // Store subscription for cleanup
+        window.profileSubscription = subscription;
+
+        return () => {
+            if (window.profileSubscription) {
+                window.profileSubscription.unsubscribe();
+            }
+        };
+    } catch (error) {
+        console.error('Error setting up profile subscription:', error);
+    }
+}
+
+// Add cleanup on page unload
+window.addEventListener('beforeunload', () => {
+    if (window.profileSubscription) {
+        window.profileSubscription.unsubscribe();
+    }
 });
